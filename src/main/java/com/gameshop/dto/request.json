@@ -1,0 +1,34 @@
+{
+  "name": "Антон",
+  "surname": "Кучеренко",
+  "city": "Київ",
+  "phone": "0934155092",
+  "totalPrice": 4200,
+  "discountedPrice": 3570,
+  "userId": 1,
+  "products": [
+    {
+      "id": 958,
+      "image": "/images/1585747189458-99120208025_SCSkinksGroup.jpg",
+      "name": "Start Collecting! Skinks",
+      "price": 2100,
+      "discountedPrice": 1680,
+      "quantity": 1,
+      "maxQuantity": 3,
+      "dateAdded": 1588875717955
+    },
+    {
+      "id": 959,
+      "image": "/images/1585747249195-99120209056_GSGSC2.jpg",
+      "name": "Start Collecting! Gloomspite Gitz",
+      "price": 2100,
+      "discountedPrice": 1890,
+      "quantity": 1,
+      "maxQuantity": 1,
+      "dateAdded": 1588875718679
+    }
+  ],
+  "departmentNumber": 227,
+  "payment": "CREDIT_CARD",
+  "promoCode": "fm8vagr0nawg"
+}
