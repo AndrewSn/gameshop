@@ -4,6 +4,7 @@ import com.gameshop.dto.OrderDto;
 import com.gameshop.entity.UserInfo;
 import com.gameshop.exception.ResourceNotFoundException;
 import com.gameshop.repository.UserInfoRepo;
+import com.gameshop.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +16,14 @@ import java.util.List;
 @RequestMapping("/user-info")
 public class UserInfoController {
 
-    @Autowired
     UserInfoRepo userInfoRepo;
+    UserInfoService userInfoService;
+
+    @Autowired
+    public UserInfoController(UserInfoRepo userInfoRepo, UserInfoService userInfoService) {
+        this.userInfoRepo = userInfoRepo;
+        this.userInfoService = userInfoService;
+    }
 
     private UserInfo toEntity(OrderDto dto) {
         UserInfo entity = new UserInfo();
@@ -52,21 +59,11 @@ public class UserInfoController {
 
     @PutMapping("/{userInfoId}")
     public UserInfo updateUserInfo(@PathVariable(value = "userInfoId") Long userInfoId, @Valid @RequestBody UserInfo userDetails) {
-        UserInfo userInfo = userInfoRepo.findById(userInfoId).orElseThrow(() -> new ResourceNotFoundException("UserInfo", "id", userInfoId));
-        userInfo.setName(userDetails.getName());
-        userInfo.setLastname(userDetails.getLastname());
-        userInfo.setPhoneNumber(userDetails.getPhoneNumber());
-        userInfo.setCity(userDetails.getCity());
-        userInfo.setBranchNumber(userDetails.getBranchNumber());
-        userInfo.setDeliveryMethod(userDetails.getDeliveryMethod());
-        userInfo.setUser(userDetails.getUser());
-        return userInfoRepo.save(userInfo);
+        return userInfoService.updateUserInfo(userInfoId, userDetails);
     }
 
     @DeleteMapping("/{userInfoId}")
     public ResponseEntity<?> deleteUserInfo(@PathVariable(value = "userInfoId") Long userInfoId) {
-        UserInfo userInfo = userInfoRepo.findById(userInfoId).orElseThrow(() -> new ResourceNotFoundException("UserInfo", "id", userInfoId));
-        userInfoRepo.delete(userInfo);
-        return ResponseEntity.ok().build();
+        return userInfoService.deleteUserInfo(userInfoId);
     }
 }

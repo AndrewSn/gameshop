@@ -48,7 +48,6 @@ public class Goods {
             mappedBy = "goods")
     private Set<Category> categories = new HashSet<>();
 
-    @Autowired
     public Goods(Long goodsId, String brandOfGoods, double priceOfGoods, String description, double salePrice, int numberOfGoods) {
         this.goodsId = goodsId;
         this.brandOfGoods = brandOfGoods;
@@ -58,7 +57,6 @@ public class Goods {
         this.numberOfGoods = numberOfGoods;
     }
 
-    @Autowired
     public Goods() {
     }
 

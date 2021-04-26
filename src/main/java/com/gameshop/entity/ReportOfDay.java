@@ -9,11 +9,9 @@ public class ReportOfDay {
     private Double averageSumOfDay;
     private Double sumOfDay;
 
-    @Autowired
     public ReportOfDay() {
     }
 
-    @Autowired
     public ReportOfDay(LocalDate date, Double averageSumOfDay, Double sumOfDay) {
         this.date = date;
         this.averageSumOfDay = averageSumOfDay;

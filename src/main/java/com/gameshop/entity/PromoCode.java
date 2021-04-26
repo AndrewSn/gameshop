@@ -48,7 +48,6 @@ public class PromoCode {
     @JsonIgnore
     private Set<Order> orders;
 
-    @Autowired
     public PromoCode(Long promoId, String promoCode, LocalDate startDate, LocalDate endDate, Double promoValue, PromoUnit promoUnit, PromoStatus promoStatus) {
         this.promoId = promoId;
         this.promoCode = promoCode;
@@ -59,7 +58,6 @@ public class PromoCode {
         this.promoStatus = promoStatus;
     }
 
-    @Autowired
     public PromoCode() {
 
     }

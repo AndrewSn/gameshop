@@ -18,8 +18,12 @@ import java.util.Map;
 @RequestMapping("/analys")
 public class AnalysController {
 
-    @Autowired
     AnalystService analystService;
+
+    @Autowired
+    public AnalysController(AnalystService analystService) {
+        this.analystService = analystService;
+    }
 
     @GetMapping("/report-of-day")
     public List<ReportOfDay> getReportOfDay(@RequestParam(value = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate, @RequestParam(value = "endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {

@@ -17,12 +17,16 @@ import java.util.stream.Collectors;
 
 @Service
 public class AnalystService {
-    @Autowired
     OrderRepo orderRepo;
-    @Autowired
     UserInfoRepo userInfoRepo;
-    @Autowired
     PromoCodeRepo promoCodeRepo;
+
+    @Autowired
+    public AnalystService(OrderRepo orderRepo, UserInfoRepo userInfoRepo, PromoCodeRepo promoCodeRepo) {
+        this.orderRepo = orderRepo;
+        this.userInfoRepo = userInfoRepo;
+        this.promoCodeRepo = promoCodeRepo;
+    }
 
     public DateReport getDateReport1(LocalDate startDAte, LocalDate endDAte) {
         DateReport dateReport = new DateReport();
@@ -95,12 +99,9 @@ public class AnalystService {
         List<LocalDate> localDates = getlocalDates(startDate, endDate);
         Map<LocalDate, Double> resultMap = new HashMap<>();
         for (int i = 0; i < localDates.size(); i++) {
-            long count = 0;
-            double averageSum = 0;
             int finalI = i;
-            count = orders.stream().filter(order -> order.getCreateOrder().isEqual(localDates.get(finalI))).count();
-            int finalI1 = i;
-            averageSum = orders.stream().filter(order -> order.getCreateOrder().isEqual(localDates.get(finalI1))).mapToDouble(Order::getTotalAmount).sum() / count;
+            long count = orders.stream().filter(order -> order.getCreateOrder().isEqual(localDates.get(finalI))).count();
+            double averageSum = orders.stream().filter(order -> order.getCreateOrder().isEqual(localDates.get(finalI))).mapToDouble(Order::getTotalAmount).sum() / count;
             if (!Double.isNaN(averageSum)) {
                 resultMap.put(localDates.get(i), averageSum);
             }
@@ -113,9 +114,8 @@ public class AnalystService {
         List<LocalDate> localDates = getlocalDates(startDate, endDate);
         Map<LocalDate, Double> resultMap = new HashMap<>();
         for (int i = 0; i < localDates.size(); i++) {
-            double averageSum = 0;
             int finalI1 = i;
-            averageSum = orders.stream().filter(order -> order.getCreateOrder().isEqual(localDates.get(finalI1))).mapToDouble(Order::getTotalAmount).sum();
+            double averageSum = orders.stream().filter(order -> order.getCreateOrder().isEqual(localDates.get(finalI1))).mapToDouble(Order::getTotalAmount).sum();
             if (!Double.isNaN(averageSum)) {
                 resultMap.put(localDates.get(i), averageSum);
             }

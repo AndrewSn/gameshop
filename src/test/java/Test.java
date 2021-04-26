@@ -10,7 +10,7 @@ public class Test {
    @Autowired
    UserRepo userRepo;
 
-   UserController userController = new UserController();
+   //UserController userController = new UserController();
     @org.junit.Test
     public void createUser(){
      //  User user = new User("sbc","cssdc","vdsa");

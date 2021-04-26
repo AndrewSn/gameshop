@@ -50,11 +50,9 @@ public class User {
     @Column(name = "total_sum")
     private Double totalSum;
 
-    @Autowired
     public User() {
     }
 
-    @Autowired
     public User(Long userId, String name, String password, String email, LocalDate lastUpdate, LocalDate created, Set<UserInfo> userInfos, Double personalDiscount, Double totalSum) {
         this.userId = userId;
         this.nameOfUser = name;

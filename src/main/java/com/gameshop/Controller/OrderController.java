@@ -17,12 +17,16 @@ import java.util.List;
 @RequestMapping("/order")
 public class OrderController {
 
-    @Autowired
     OrderRepo orderRepo;
-    @Autowired
     UserRepo userRepo;
-    @Autowired
     OrderService orderService;
+
+    @Autowired
+    public OrderController(OrderRepo orderRepo, UserRepo userRepo, OrderService orderService) {
+        this.orderRepo = orderRepo;
+        this.userRepo = userRepo;
+        this.orderService = orderService;
+    }
 
     @GetMapping("/")
     public List<Order> search() {
@@ -46,22 +50,12 @@ public class OrderController {
 
     @PutMapping("/{orderId}")
     public Order updateOrder(@PathVariable(value = "orderId") Long orderId, @Valid @RequestBody Order orderDeteils) {
-        Order order = orderRepo.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order", "id", orderId));
-        order.setUserInfo(orderDeteils.getUserInfo());
-        order.setStatusPay(orderDeteils.getStatusPay());
-        order.setStatusOrder(orderDeteils.getStatusOrder());
-        order.setPaymentMethod(orderDeteils.getPaymentMethod());
-        order.setTotalAmount(orderDeteils.getTotalAmount());
-        order.setCreateOrder(orderDeteils.getCreateOrder());
-        order.setSaleAmount(orderDeteils.getSaleAmount());
-        return orderRepo.save(order);
+        return orderService.updateOrder(orderId, orderDeteils);
     }
 
     @DeleteMapping("/{orderId}")
     public ResponseEntity<?> deleteOrder(@PathVariable(value = "orderId") Long orderId) {
-        Order order = orderRepo.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order", "orderId", orderId));
-        orderRepo.delete(order);
-        return ResponseEntity.ok().build();
+       return orderService.deleteOrder(orderId);
     }
 
 }

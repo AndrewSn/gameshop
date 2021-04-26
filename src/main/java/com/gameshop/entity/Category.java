@@ -43,7 +43,6 @@ public class Category {
         this.goods = goods;
     }
 
-    @Autowired
     public Category(Long categoryId, String categoryName) {
         this.categoryId = categoryId;
         this.categoryName = categoryName;

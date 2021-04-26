@@ -19,10 +19,14 @@ import java.util.regex.Pattern;
 @RequestMapping("/goods")
 public class GoodsController {
 
-    @Autowired
     GoodsRepo goodsRepo;
-    @Autowired
     GoodsService goodsService;
+
+    @Autowired
+    public GoodsController(GoodsRepo goodsRepo, GoodsService goodsService) {
+        this.goodsRepo = goodsRepo;
+        this.goodsService = goodsService;
+    }
 
     @GetMapping("/getAll")
     public List<Goods> gettGoods() {
@@ -54,19 +58,12 @@ public class GoodsController {
 
     @PutMapping("/{goodsId}")
     public Goods updateGoods(@PathVariable(value = "goodsId") Long goodsId, @Valid @RequestBody Goods goodsDetails) {
-        Goods goods = goodsRepo.findById(goodsId).orElseThrow(() -> new ResourceNotFoundException("Goods", "goodsId", goodsId));
-        goods.setBrandOfGoods(goodsDetails.getBrandOfGoods());
-        goods.setPriceOfGoods(goodsDetails.getPriceOfGoods());
-        goods.setDescriptionOfGoods(goodsDetails.getDescriptionOfGoods());
-        goods.setSalePriceOfGoods(goodsDetails.getSalePriceOfGoods());
-        return goodsRepo.save(goods);
+       return goodsService.updateGoods(goodsId, goodsDetails);
     }
 
     @DeleteMapping("/{goodsId}")
     public ResponseEntity<?> deleteGoods(@PathVariable(value = "goodsId") Long goodsId) {
-        Goods goods = goodsRepo.findById(goodsId).orElseThrow(() -> new ResourceNotFoundException("Goods", "goodsId", goodsId));
-        goodsRepo.delete(goods);
-        return ResponseEntity.ok().build();
+        return goodsService.deleteGoods(goodsId);
     }
 }
 

@@ -3,6 +3,7 @@ package com.gameshop.Controller;
 import com.gameshop.entity.Category;
 import com.gameshop.exception.ResourceNotFoundException;
 import com.gameshop.repository.CategoryRepo;
+import com.gameshop.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +15,14 @@ import java.util.List;
 @RequestMapping("/category")
 public class CategoryController {
 
-    @Autowired
     CategoryRepo categoryRepo;
+    CategoryService categoryService;
+
+    @Autowired
+    public CategoryController(CategoryRepo categoryRepo, CategoryService categoryService) {
+        this.categoryRepo = categoryRepo;
+        this.categoryService = categoryService;
+    }
 
     @GetMapping("/")
     public List<Category> getAllCategory() {
@@ -35,15 +42,11 @@ public class CategoryController {
 
     @PutMapping("/{categoryId}")
     public Category updateCategory(@PathVariable(value = "categoryId") Long categoryId, @Valid @RequestBody Category categoryDetails) {
-        Category category = categoryRepo.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category", "categoryId", categoryId));
-        category.setCategoryName(categoryDetails.getCategoryName());
-        return categoryRepo.save(category);
+        return categoryService.updateCategory(categoryId, categoryDetails);
     }
 
     @DeleteMapping("/{categoryId}")
     public ResponseEntity<?> deleteCategory(@PathVariable(value = "categoryId") Long categoryId) {
-        Category category = categoryRepo.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category", "categoryId", categoryId));
-        categoryRepo.delete(category);
-        return ResponseEntity.ok().build();
+        return categoryService.deleteCategory(categoryId);
     }
 }

@@ -15,18 +15,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/promo")
 public class PromoCodeController {
 
-    @Autowired
     PromoCodeRepo promoCodeRepo;
-    @Autowired
     PromoCodeService promoCodeService;
+
+    @Autowired
+    public PromoCodeController(PromoCodeRepo promoCodeRepo, PromoCodeService promoCodeService) {
+        this.promoCodeRepo = promoCodeRepo;
+        this.promoCodeService = promoCodeService;
+    }
 
     @PostMapping("/")
     public PromoCode createPromoCode() {
-        PromoCode promoCode = new PromoCode();
-        promoCode.setPromoUnit(PromoUnit.currency);
-        promoCode.setPromoStatus(PromoStatus.terminated);
-        promoCode.setPromoValue(555.5);
-        promoCode.setPromoCode(promoCodeService.createRandomCode());
-        return promoCodeRepo.save(promoCode);
+       return promoCodeService.createPromocode();
     }
 }

@@ -10,11 +10,9 @@ public class DateReport {
     private List<Goods> expensiveGoods;
     private List<ReportOfDay> reportOfDay;
 
-    @Autowired
     public DateReport() {
     }
 
-    @Autowired
     public DateReport(String averageCheck, List<Goods> cheapestGoods, List<Goods> expensiveGoods, List<ReportOfDay> reportOfDay) {
         this.averageCheck = averageCheck;
         this.cheapestGoods = cheapestGoods;

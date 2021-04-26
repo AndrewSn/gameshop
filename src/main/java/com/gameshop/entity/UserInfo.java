@@ -42,11 +42,9 @@ public class UserInfo {
     @JsonIgnore
     private User user;
 
-    @Autowired
     public UserInfo() {
     }
 
-    @Autowired
     public UserInfo(Long userInfoId, String name, String lastname, String phoneNumber, String city, String branchNumber, String deliveryMethod) {
         this.userInfoId = userInfoId;
         this.name = name;

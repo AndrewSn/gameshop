@@ -5,33 +5,37 @@ import com.gameshop.Enum.PromoStatus;
 import com.gameshop.dto.GoodsDto;
 import com.gameshop.dto.OrderDto;
 import com.gameshop.entity.*;
+import com.gameshop.exception.ResourceNotFoundException;
 import com.gameshop.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
 public class OrderService {
 
     Pattern pattern = Pattern.compile("^\\+\\d{2}\\(\\d{3}\\)\\d{3}-\\d{2}-\\d{2}$");
-    Matcher matcher;
-    @Autowired
     GoodsRepo goodsRepo;
-    @Autowired
     OrderRepo orderRepo;
-    @Autowired
     UserInfoRepo userInfoRepo;
-    @Autowired
     UserRepo userRepo;
-    @Autowired
     PromoCodeRepo promoCodeRepo;
-    @Autowired
     PromoCodeController promoCodeController;
+
+    @Autowired
+    public OrderService(GoodsRepo goodsRepo, OrderRepo orderRepo, UserInfoRepo userInfoRepo, UserRepo userRepo, PromoCodeRepo promoCodeRepo, PromoCodeController promoCodeController){
+        this.goodsRepo = goodsRepo;
+        this.orderRepo = orderRepo;
+        this.userInfoRepo = userInfoRepo;
+        this.userRepo = userRepo;
+        this.promoCodeRepo = promoCodeRepo;
+        this.promoCodeController = promoCodeController;
+    }
 
 
     public String processOrder(OrderDto orderDto) throws Exception {
@@ -183,6 +187,24 @@ public class OrderService {
             orderRepo.save(order);
             userInfoRepo.save(userInfo);
         }
+    }
+
+    public Order updateOrder(Long orderId, Order orderRequest){
+        Order order = orderRepo.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order", "id", orderId));
+        order.setUserInfo(orderRequest.getUserInfo());
+        order.setStatusPay(orderRequest.getStatusPay());
+        order.setStatusOrder(orderRequest.getStatusOrder());
+        order.setPaymentMethod(orderRequest.getPaymentMethod());
+        order.setTotalAmount(orderRequest.getTotalAmount());
+        order.setCreateOrder(orderRequest.getCreateOrder());
+        order.setSaleAmount(orderRequest.getSaleAmount());
+        return orderRepo.save(order);
+    }
+
+    public ResponseEntity<Object> deleteOrder(Long orderId) {
+        Order order = orderRepo.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order", "orderId", orderId));
+        orderRepo.delete(order);
+        return ResponseEntity.ok().build();
     }
 
 }

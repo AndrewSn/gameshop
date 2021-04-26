@@ -55,11 +55,9 @@ public class Order {
     @JsonIgnore
     private PromoCode promoCode;
 
-    @Autowired
     public Order() {
     }
 
-    @Autowired
     public Order(Long orderId, UserInfo userInfo, String statusPay, String statusOrder, String paymentMethod, double totalAmount, LocalDate createOrder, Double saleAmount, Double personalDiscount, PromoCode promoCode) {
         this.orderId = orderId;
         this.userInfo = userInfo;
