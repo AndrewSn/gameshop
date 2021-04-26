@@ -10,12 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface UserRepo extends JpaRepository<User, Long> {
-    @Query("SELECT u from User u where u.id = :id")
+    @Query("SELECT u from User u where u.userId = :id")
     User findUserById(@Param("id") Long id);
 
     @Transactional
     @Modifying
-    @Query("update User u set u.personalDiscountOfUser = :personalDiscount where u.id = :id")
+    @Query("update User u set u.personalDiscountOfUser = :personalDiscount where u.userId = :id")
     void updateUserPersonalDiscount(@Param("personalDiscount") Double personalDiscount, @Param("id") Long id);
 
 }

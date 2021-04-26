@@ -36,26 +36,9 @@ public class OrderService {
 
     public String processOrder(OrderDto orderDto) throws Exception {
         Optional<Goods> goods = findGoodsById(orderDto.getGoodsDto().get(0).getId());
-        //validateUser(orderDto.getName(), orderDto.getSurname(), orderDto.getCity(), orderDto.getPhone(), orderDto.getBranchNumber(), orderDto.getPaymentMethod());
         processOrderWithDiscount(orderDto);
-        // Order order = toOrderEntity(orderDto);
-        //orderRepo.save(order);
-
-        //UserInfo userInfo = toInfoEntity(orderDto);
-        //userInfoRepo.save(userInfo);
-
-        //order.setTotalAmount(orderDto.getTotalAmount());
-        //order.setSaleAmount(orderDto.getSaleAmount());
-        //order.setPaymentMethod(orderDto.getPaymentMethod());
-
-
         List<Goods> goodsList = toGoodsEntity(orderDto);
-       /* for (int i = 0; i < goodsList.size(); i++) {
-            goodsRepo.save(goodsList.get(i));
-        }*/
         goodsRepo.saveAll(goodsList);
-
-
         return "";
     }
 
@@ -202,20 +185,6 @@ public class OrderService {
         }
     }
 
-//public void getPromoCodeSale(OrderDto orderDto){
-//    PromoCode promoCode = promoCodeRepo.getPromoCodeIfExist(orderDto.getPromoCode());
-//    double sum = 0.0;
-//    Long userId = orderDto.getUserId();
-//    Double personaSale = userRepo.findById(userId).get().getPersonalDiscount();
-//    String unit  =  promoCode.getPromoUnit().toString();
-//    switch (unit){
-//                case "currency": sum =  (orderDto.getSaleAmount()-((orderDto.getSaleAmount()*personaSale)/100)-promoCode.getPromoValue());
-//                break;
-//                case "percent" : sum = (orderDto.getSaleAmount()-((orderDto.getSaleAmount()*personaSale)/100)-((orderDto.getSaleAmount()*promoCode.getPromoValue()/100)));
-//                break;
-//            }
-//           promoCodeRepo.updatePromoCodeStatus(PromoCode.Status.terminated.toString(),promoCode.getPromoId());
-//    }
 }
 
 

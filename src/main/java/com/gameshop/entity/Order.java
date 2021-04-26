@@ -1,8 +1,9 @@
 package com.gameshop.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -16,13 +17,12 @@ import java.util.Set;
 @EntityListeners(AuditingEntityListener.class)
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
-//@JsonIgnoreProperties({"hibernateLazyInitializer"})
+        property = "orderId")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
-    private Long id;
+    private Long orderId;
     @ManyToOne
     @JoinColumn(name = "userinfo_id")
     private UserInfo userInfo;
@@ -35,8 +35,6 @@ public class Order {
     @Column(name = "total_amount")
     private double totalAmount;
     @Column(name = "create_order")
-    //@Convert(converter = LocalDateConverter.class)
-    //@Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
     private LocalDate createOrder;
     @Column(name = "sale_amount")
@@ -48,18 +46,22 @@ public class Order {
                     CascadeType.MERGE
             },
             mappedBy = "orders")
+    @JsonIgnore
     private Set<Goods> goods = new HashSet<>();
     @Column(name = "personal_discount")
     private Double personalDiscount;
     @ManyToOne
     @JoinColumn(name = "promo_id")
+    @JsonIgnore
     private PromoCode promoCode;
 
+    @Autowired
     public Order() {
     }
 
-    public Order(Long id, UserInfo userInfo, String statusPay, String statusOrder, String paymentMethod, double totalAmount, LocalDate createOrder, Double saleAmount, Double personalDiscount, PromoCode promoCode) {
-        this.id = id;
+    @Autowired
+    public Order(Long orderId, UserInfo userInfo, String statusPay, String statusOrder, String paymentMethod, double totalAmount, LocalDate createOrder, Double saleAmount, Double personalDiscount, PromoCode promoCode) {
+        this.orderId = orderId;
         this.userInfo = userInfo;
         this.statusPay = statusPay;
         this.statusOrder = statusOrder;
@@ -71,12 +73,12 @@ public class Order {
         this.promoCode = promoCode;
     }
 
-    public Long getId() {
-        return id;
+    public Long getOrderId() {
+        return orderId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 
     public UserInfo getUserInfo() {

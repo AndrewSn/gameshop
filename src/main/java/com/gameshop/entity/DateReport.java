@@ -1,5 +1,7 @@
 package com.gameshop.entity;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.List;
 
 public class DateReport {
@@ -8,9 +10,11 @@ public class DateReport {
     private List<Goods> expensiveGoods;
     private List<ReportOfDay> reportOfDay;
 
+    @Autowired
     public DateReport() {
     }
 
+    @Autowired
     public DateReport(String averageCheck, List<Goods> cheapestGoods, List<Goods> expensiveGoods, List<ReportOfDay> reportOfDay) {
         this.averageCheck = averageCheck;
         this.cheapestGoods = cheapestGoods;

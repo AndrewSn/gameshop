@@ -126,10 +126,8 @@ public class AnalystService {
     public ReportOfUser getReportOfUser(Long id) {
         ReportOfUser reportOfUser = new ReportOfUser();
         UserInfo userInfo = userInfoRepo.findUserInfoById(id);
-        // Set<Order> orderList;
-        //orderList = userInfo.getOrders();
         List<Order> orderList = orderRepo.findAll();
-        orderList.stream().filter(order -> order.getUserInfo().getId().equals(id)).collect(Collectors.toList());
+        orderList.stream().filter(order -> order.getUserInfo().getUserInfoId().equals(id)).collect(Collectors.toList());
         reportOfUser.setUserInfo(userInfo);
         reportOfUser.setOrders(orderList);
         return reportOfUser;

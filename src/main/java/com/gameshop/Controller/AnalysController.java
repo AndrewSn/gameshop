@@ -4,14 +4,13 @@ import com.gameshop.dto.GoodsWithPromoCode;
 import com.gameshop.dto.OrderDto;
 import com.gameshop.entity.*;
 import com.gameshop.service.AnalystService;
-import com.sun.javafx.collections.MappingChange;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -22,38 +21,38 @@ public class AnalysController {
     @Autowired
     AnalystService analystService;
 
-    @GetMapping("/getReportOfDay")
-    public List<ReportOfDay> getReportOfDay(@RequestParam(value = "start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start, @RequestParam(value = "end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end) {
-        return analystService.getReportOfDay(start, end);
+    @GetMapping("/report-of-day")
+    public List<ReportOfDay> getReportOfDay(@RequestParam(value = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate, @RequestParam(value = "endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+        return analystService.getReportOfDay(startDate, endDate);
     }
 
 
-    @GetMapping("/getDateReport")
-    public DateReport searchOrder(@RequestParam(value = "start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start, @RequestParam(value = "end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end) {
-        return analystService.getDateReport1(start, end);
+    @GetMapping("/report-of-day1")
+    public DateReport searchOrder(@RequestParam(value = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate, @RequestParam(value = "endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+        return analystService.getDateReport1(startDate, endDate);
     }
 
-    @GetMapping("/getCheapestGoods")
-    public List<Goods> getCheapestGoods(@RequestParam(value = "start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start, @RequestParam(value = "end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end) {
-        return analystService.getCheapestGoods(start, end);
+    @GetMapping("/cheapest-goods")
+    public List<Goods> getCheapestGoods(@RequestParam(value = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate, @RequestParam(value = "endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+        return analystService.getCheapestGoods(startDate, endDate);
     }
 
-    @GetMapping("/getAverageCheck")
-    public String getAverageCheck(@RequestParam(value = "start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start, @RequestParam(value = "end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end) {
-        return analystService.getAverageCheck(start, end);
+    @GetMapping("/average-check")
+    public String getAverageCheck(@RequestParam(value = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate, @RequestParam(value = "endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+        return analystService.getAverageCheck(startDate, endDate);
     }
 
-    @GetMapping("/getAverageSumOfDay")
-    public Map<LocalDate, Double> getAverageSumOfDay(@RequestParam(value = "start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start, @RequestParam(value = "end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end) {
-        return analystService.getAveregeSumOfDay(start, end);
+    @GetMapping("/average-sum-of-day")
+    public Map<LocalDate, Double> getAverageSumOfDay(@RequestParam(value = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate, @RequestParam(value = "endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+        return analystService.getAveregeSumOfDay(startDate, endDate);
     }
 
-    @GetMapping("/getReportOfUser")
-    public ReportOfUser getReportOfUSer(@RequestParam(value = "id") Long id) {
-        return analystService.getReportOfUser(id);
+    @GetMapping("/report-of-user")
+    public ReportOfUser getReportOfUSer(@RequestParam(value = "userId") Long userId) {
+        return analystService.getReportOfUser(userId);
     }
 
-    @PostMapping("/getProductWithPromocodeSale")
+    @PostMapping("/product-with-promocode-sale")
     @ResponseBody
     public List<GoodsWithPromoCode> getProductWithPromocodeSale(@RequestBody OrderDto orderDto) {
         return analystService.getProductWithPromocodeSale(orderDto);

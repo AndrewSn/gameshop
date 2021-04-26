@@ -3,6 +3,7 @@ package com.gameshop.Controller;
 import com.gameshop.entity.Goods;
 import com.gameshop.exception.ResourceNotFoundException;
 import com.gameshop.repository.GoodsRepo;
+import com.gameshop.service.GoodsService;
 import com.gameshop.specification.GoodsSpecificationsBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -17,43 +18,43 @@ import java.util.regex.Pattern;
 @RestController
 @RequestMapping("/goods")
 public class GoodsController {
+
     @Autowired
     GoodsRepo goodsRepo;
+    @Autowired
+    GoodsService goodsService;
+
+    @GetMapping("/getAll")
+    public List<Goods> gettGoods() {
+        return goodsRepo.findAll();
+    }
 
     @GetMapping("/")
     public List<Goods> getAllGoods(@RequestParam(value = "search") String search) {
-        GoodsSpecificationsBuilder builder = new GoodsSpecificationsBuilder();
-        Pattern pattern = Pattern.compile("(\\w+?)(:|<|>)(\\w+?),");
-        Matcher matcher = pattern.matcher(search + ",");
-        while (matcher.find()) {
-            builder.with(matcher.group(1), matcher.group(2), matcher.group(3));
-        }
-
-        Specification<Goods> spec = builder.build();
-        return goodsRepo.findAll(spec);
+        return goodsService.getAllGoods(search);
     }
 
-    @GetMapping("/topprice")
+    @GetMapping("/goods-top-price")
     public List<Goods> getGoodsTopPrice() {
         return goodsRepo.getAllTopPrice();
     }
 
 
-    @PostMapping("/goods/create")
+    @PostMapping("/")
     public Goods createGoods(@Valid @RequestBody Goods goods) {
         return goodsRepo.save(goods);
     }
 
-    @GetMapping("/goods/{id}")
+    @GetMapping("/{goodsId}")
     @ResponseBody
-    public Goods getGoodsById(@PathVariable(value = "id") Long id) {
-        return goodsRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Goods", "id", id));
+    public Goods getGoodsById(@PathVariable(value = "goodsId") Long goodsId) {
+        return goodsRepo.findById(goodsId).orElseThrow(() -> new ResourceNotFoundException("Goods", "goodsId", goodsId));
     }
 
 
-    @PutMapping("/update/{id}")
-    public Goods updateGoods(@PathVariable(value = "id") Long id, @Valid @RequestBody Goods goodsDetails) {
-        Goods goods = goodsRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Goods", "id", id));
+    @PutMapping("/{goodsId}")
+    public Goods updateGoods(@PathVariable(value = "goodsId") Long goodsId, @Valid @RequestBody Goods goodsDetails) {
+        Goods goods = goodsRepo.findById(goodsId).orElseThrow(() -> new ResourceNotFoundException("Goods", "goodsId", goodsId));
         goods.setBrandOfGoods(goodsDetails.getBrandOfGoods());
         goods.setPriceOfGoods(goodsDetails.getPriceOfGoods());
         goods.setDescriptionOfGoods(goodsDetails.getDescriptionOfGoods());
@@ -61,9 +62,9 @@ public class GoodsController {
         return goodsRepo.save(goods);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteGoods(@PathVariable(value = "id") Long id) {
-        Goods goods = goodsRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Goods", "id", id));
+    @DeleteMapping("/{goodsId}")
+    public ResponseEntity<?> deleteGoods(@PathVariable(value = "goodsId") Long goodsId) {
+        Goods goods = goodsRepo.findById(goodsId).orElseThrow(() -> new ResourceNotFoundException("Goods", "goodsId", goodsId));
         goodsRepo.delete(goods);
         return ResponseEntity.ok().build();
     }

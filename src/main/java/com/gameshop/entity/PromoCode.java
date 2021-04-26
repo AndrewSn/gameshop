@@ -1,17 +1,17 @@
 package com.gameshop.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.gameshop.Enum.PromoStatus;
 import com.gameshop.Enum.PromoUnit;
 import com.gameshop.converters.LocalDateConverter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 
 
@@ -21,7 +21,6 @@ import java.util.Set;
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "promoId")
-//@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class PromoCode {
 
     @Id
@@ -46,8 +45,10 @@ public class PromoCode {
     @Column(name = "promo_status", length = 15)
     private PromoStatus promoStatus;
     @OneToMany(mappedBy = "promoCode")
+    @JsonIgnore
     private Set<Order> orders;
 
+    @Autowired
     public PromoCode(Long promoId, String promoCode, LocalDate startDate, LocalDate endDate, Double promoValue, PromoUnit promoUnit, PromoStatus promoStatus) {
         this.promoId = promoId;
         this.promoCode = promoCode;
@@ -58,6 +59,7 @@ public class PromoCode {
         this.promoStatus = promoStatus;
     }
 
+    @Autowired
     public PromoCode() {
 
     }

@@ -1,15 +1,18 @@
 package com.gameshop.entity;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.List;
-import java.util.Set;
 
 public class ReportOfUser {
     private UserInfo userInfo;
     private List<Order> orders;
 
+    @Autowired
     public ReportOfUser() {
     }
 
+    @Autowired
     public ReportOfUser(UserInfo userInfo, List<Order> orders) {
         this.userInfo = userInfo;
         this.orders = orders;

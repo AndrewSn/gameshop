@@ -1,6 +1,7 @@
 package com.gameshop.entity;
 
 import com.fasterxml.jackson.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -11,12 +12,12 @@ import java.util.*;
 @EntityListeners(AuditingEntityListener.class)
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
+        property = "goodsId")
 public class Goods {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "goods_id")
-    private Long id;
+    private Long goodsId;
     @Column(name = "brand")
     private String brandOfGoods;
     @Column(name = "price")
@@ -36,6 +37,7 @@ public class Goods {
     @JoinTable(name = "ordergoods",
             joinColumns = {@JoinColumn(name = "goods_id")},
             inverseJoinColumns = {@JoinColumn(name = "order_id")})
+    @JsonIgnore
     private Set<Order> orders = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY,
@@ -46,8 +48,9 @@ public class Goods {
             mappedBy = "goods")
     private Set<Category> categories = new HashSet<>();
 
-    public Goods(Long id, String brandOfGoods, double priceOfGoods, String description, double salePrice, int numberOfGoods) {
-        this.id = id;
+    @Autowired
+    public Goods(Long goodsId, String brandOfGoods, double priceOfGoods, String description, double salePrice, int numberOfGoods) {
+        this.goodsId = goodsId;
         this.brandOfGoods = brandOfGoods;
         this.priceOfGoods = priceOfGoods;
         this.descriptionOfGoods = description;
@@ -55,6 +58,7 @@ public class Goods {
         this.numberOfGoods = numberOfGoods;
     }
 
+    @Autowired
     public Goods() {
     }
 
@@ -75,12 +79,12 @@ public class Goods {
         this.orders = orders;
     }
 
-    public Long getId() {
-        return id;
+    public Long getGoodsId() {
+        return goodsId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setGoodsId(Long goodsId) {
+        this.goodsId = goodsId;
     }
 
     public String getBrandOfGoods() {
@@ -126,7 +130,7 @@ public class Goods {
     @Override
     public String toString() {
         return "Goods{" +
-                "id=" + id +
+                "id=" + goodsId +
                 ", brand='" + brandOfGoods + '\'' +
                 ", price=" + priceOfGoods +
                 ", description='" + descriptionOfGoods + '\'' +

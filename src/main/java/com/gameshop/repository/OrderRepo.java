@@ -10,10 +10,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public interface OrderRepo extends JpaRepository<Order,Long> {
+public interface OrderRepo extends JpaRepository<Order, Long> {
     @Query("SELECT o from Order o where o.createOrder BETWEEN :startDAte and :endDAte")
-     List<Order> getOrderByDateRange(@Param("startDAte") LocalDate startDAte, @Param("endDAte") LocalDate endDAte);
+    List<Order> getOrderByDateRange(@Param("startDAte") LocalDate startDAte, @Param("endDAte") LocalDate endDAte);
 
-    @Query("SELECT o from Order o where  o.userInfo.id = :id")
+    @Query("SELECT o from Order o where  o.userInfo.userInfoId = :id")
     List<Order> getOrderByUserId(@Param("id") Long id);
 }

@@ -14,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 public class UserController {
+
     @Autowired
     UserRepo userRepo;
 
@@ -27,26 +28,25 @@ public class UserController {
         return userRepo.save(user);
     }
 
-    @GetMapping("/{id}")
-    public User getUserById(@PathVariable(value = "id") Long id) {
-        return userRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
+    @GetMapping("/{userId}")
+    public User getUserById(@PathVariable(value = "userId") Long userId) {
+        return userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "userId", userId));
     }
 
-    @PutMapping("/{id}")
-    public User updateUser(@PathVariable(value = "id") Long id, @Valid @RequestBody User userDetails) {
-        User user = userRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
+    @PutMapping("/{userId}")
+    public User updateUser(@PathVariable(value = "userId") Long userId, @Valid @RequestBody User userDetails) {
+        User user = userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "userId", userId));
         user.setNameOfUser(userDetails.getNameOfUser());
         user.setPasswordOfUser(userDetails.getPasswordOfUser());
         user.setEmailOfUser(userDetails.getEmailOfUser());
         user.setLastUpdate(userDetails.getLastUpdate());
         user.setPersonalDiscountOfUser(userDetails.getPersonalDiscountOfUser());
-
         return userRepo.save(user);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable(value = "id") Long id) {
-        User user = userRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<?> deleteUser(@PathVariable(value = "userId") Long userId) {
+        User user = userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "userId", userId));
         userRepo.delete(user);
         return ResponseEntity.ok().build();
     }

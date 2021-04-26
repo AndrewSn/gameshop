@@ -1,19 +1,25 @@
 package com.gameshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "userinfo")
 @EntityListeners(AuditingEntityListener.class)
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "userInfoId")
 public class UserInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "userinfo_id")
-    private Long id;
+    private Long userInfoId;
     @Column(name = "name")
     private String name;
     @Column(name = "lastname")
@@ -28,17 +34,21 @@ public class UserInfo {
     private String deliveryMethod;
 
     @OneToMany(mappedBy = "userInfo")
+    @JsonIgnore
     private Set<Order> orders;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
+    @Autowired
     public UserInfo() {
     }
 
-    public UserInfo(Long id, String name, String lastname, String phoneNumber, String city, String branchNumber, String deliveryMethod) {
-        this.id = id;
+    @Autowired
+    public UserInfo(Long userInfoId, String name, String lastname, String phoneNumber, String city, String branchNumber, String deliveryMethod) {
+        this.userInfoId = userInfoId;
         this.name = name;
         this.lastname = lastname;
         this.phoneNumber = phoneNumber;
@@ -47,12 +57,12 @@ public class UserInfo {
         this.deliveryMethod = deliveryMethod;
     }
 
-    public Long getId() {
-        return id;
+    public Long getUserInfoId() {
+        return userInfoId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUserInfoId(Long userInfoId) {
+        this.userInfoId = userInfoId;
     }
 
     public String getName() {

@@ -2,7 +2,6 @@ package com.gameshop.Controller;
 
 import com.gameshop.dto.OrderDto;
 import com.gameshop.entity.Order;
-import com.gameshop.entity.UserInfo;
 import com.gameshop.exception.ResourceNotFoundException;
 import com.gameshop.repository.OrderRepo;
 import com.gameshop.repository.UserRepo;
@@ -12,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.xml.ws.Response;
 import java.util.List;
 
 @RestController
@@ -41,14 +39,14 @@ public class OrderController {
         return orderService.processOrder(orderDto);
     }
 
-    @GetMapping("/{id}")
-    public Order getOrderById(@PathVariable(value = "id") Long id) {
-        return orderRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Order", "id", id));
+    @GetMapping("/{orderId}")
+    public Order getOrderById(@PathVariable(value = "orderId") Long orderId) {
+        return orderRepo.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order", "orderId", orderId));
     }
 
-    @PutMapping("/{id}")
-    public Order updateOrder(@PathVariable(value = "id") Long id, @Valid @RequestBody Order orderDeteils) {
-        Order order = orderRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Order", "id", id));
+    @PutMapping("/{orderId}")
+    public Order updateOrder(@PathVariable(value = "orderId") Long orderId, @Valid @RequestBody Order orderDeteils) {
+        Order order = orderRepo.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order", "id", orderId));
         order.setUserInfo(orderDeteils.getUserInfo());
         order.setStatusPay(orderDeteils.getStatusPay());
         order.setStatusOrder(orderDeteils.getStatusOrder());
@@ -56,13 +54,12 @@ public class OrderController {
         order.setTotalAmount(orderDeteils.getTotalAmount());
         order.setCreateOrder(orderDeteils.getCreateOrder());
         order.setSaleAmount(orderDeteils.getSaleAmount());
-
         return orderRepo.save(order);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteOrder(@PathVariable(value = "id") Long id) {
-        Order order = orderRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Order", "id", id));
+    @DeleteMapping("/{orderId}")
+    public ResponseEntity<?> deleteOrder(@PathVariable(value = "orderId") Long orderId) {
+        Order order = orderRepo.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order", "orderId", orderId));
         orderRepo.delete(order);
         return ResponseEntity.ok().build();
     }

@@ -1,8 +1,6 @@
 package com.gameshop.Controller;
 
 import com.gameshop.dto.OrderDto;
-import com.gameshop.entity.Order;
-import com.gameshop.entity.User;
 import com.gameshop.entity.UserInfo;
 import com.gameshop.exception.ResourceNotFoundException;
 import com.gameshop.repository.UserInfoRepo;
@@ -14,7 +12,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/info")
+@RequestMapping("/user-info")
 public class UserInfoController {
 
     @Autowired
@@ -47,14 +45,14 @@ public class UserInfoController {
     }
 
 
-    @GetMapping("/{id}")
-    public UserInfo getUserInfoById(@PathVariable(value = "id") Long id) {
-        return userInfoRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("UserInfo", "id", id));
+    @GetMapping("/{userInfoId}")
+    public UserInfo getUserInfoById(@PathVariable(value = "userInfoId") Long userInfoId) {
+        return userInfoRepo.findById(userInfoId).orElseThrow(() -> new ResourceNotFoundException("UserInfo", "id", userInfoId));
     }
 
-    @PutMapping("/{id}")
-    public UserInfo updateUserInfo(@PathVariable(value = "id") Long id, @Valid @RequestBody UserInfo userDetails) {
-        UserInfo userInfo = userInfoRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("UserInfo", "id", id));
+    @PutMapping("/{userInfoId}")
+    public UserInfo updateUserInfo(@PathVariable(value = "userInfoId") Long userInfoId, @Valid @RequestBody UserInfo userDetails) {
+        UserInfo userInfo = userInfoRepo.findById(userInfoId).orElseThrow(() -> new ResourceNotFoundException("UserInfo", "id", userInfoId));
         userInfo.setName(userDetails.getName());
         userInfo.setLastname(userDetails.getLastname());
         userInfo.setPhoneNumber(userDetails.getPhoneNumber());
@@ -65,9 +63,9 @@ public class UserInfoController {
         return userInfoRepo.save(userInfo);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUserInfo(@PathVariable(value = "id") Long id) {
-        UserInfo userInfo = userInfoRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("UserInfo", "id", id));
+    @DeleteMapping("/{userInfoId}")
+    public ResponseEntity<?> deleteUserInfo(@PathVariable(value = "userInfoId") Long userInfoId) {
+        UserInfo userInfo = userInfoRepo.findById(userInfoId).orElseThrow(() -> new ResourceNotFoundException("UserInfo", "id", userInfoId));
         userInfoRepo.delete(userInfo);
         return ResponseEntity.ok().build();
     }

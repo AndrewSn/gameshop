@@ -1,16 +1,19 @@
 package com.gameshop.entity;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.time.LocalDate;
-import java.util.Map;
 
 public class ReportOfDay {
     private LocalDate date;
     private Double averageSumOfDay;
     private Double sumOfDay;
 
+    @Autowired
     public ReportOfDay() {
     }
 
+    @Autowired
     public ReportOfDay(LocalDate date, Double averageSumOfDay, Double sumOfDay) {
         this.date = date;
         this.averageSumOfDay = averageSumOfDay;

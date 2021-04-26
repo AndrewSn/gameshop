@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface GoodsRepo extends JpaRepository<Goods, Long>, JpaSpecificationExecutor<Goods> {
-    @Query(value = "select * from goods where price>100" , nativeQuery = true)
+    @Query(value = "select * from goods where price>100", nativeQuery = true)
     public List<Goods> getAllTopPrice();
 
 
