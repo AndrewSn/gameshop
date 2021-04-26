@@ -33,11 +33,15 @@ pom.xml.next
 release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
-.mvn/timing.properties
+gameshop.iml
+.mvn/timing.propertiest
+
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
 
 .idea/inspectionProfiles/
 .idea/encodings.xml
 .idea/
+
 Would skip repository gameshop/
+/info
